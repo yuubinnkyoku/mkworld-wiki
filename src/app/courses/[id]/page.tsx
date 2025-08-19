@@ -1,11 +1,20 @@
 import { getAllPostIds, getPostData } from '@/lib/posts';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 
 // 静的に生成するパスのリストを返す
 export async function generateStaticParams() {
   const paths = getAllPostIds();
-  // getAllPostIdsは { params: { id: '...' } }[] を返すので、
-  // Next.js 13+ の generateStaticParams が期待する { id: '...' }[] の形式に変換する
   return paths.map(path => ({
     id: path.params.id,
   }));
@@ -21,18 +30,44 @@ export default async function Post({ params }: { params: { id: string } }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <article className="prose lg:prose-xl max-w-none">
-        <h1 className="text-4xl font-bold mb-2">{postData.title}</h1>
-        <div className="text-gray-500 mb-8">
-          {postData.date}
-        </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
-      </article>
-      <div className="mt-8">
-        <a href="/" className="text-blue-600 hover:underline">
-          ← トップに戻る
-        </a>
-      </div>
+      <header className="mb-8">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">ホーム</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">コース一覧</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{postData.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </header>
+
+      <main>
+        <article className="prose lg:prose-xl max-w-none">
+          <h1>{postData.title}</h1>
+          <p className="text-muted-foreground">{postData.date}</p>
+          <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        </article>
+      </main>
+
+      <footer className="mt-12">
+        <Button asChild variant="outline">
+          <Link href="/">
+            <ChevronLeftIcon className="mr-2 h-4 w-4" />
+            一覧に戻る
+          </Link>
+        </Button>
+      </footer>
     </div>
   );
 }

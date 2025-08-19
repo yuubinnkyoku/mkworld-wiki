@@ -18,7 +18,7 @@ export default function CoursesPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {allPostsData.map(({ id, date, title }) => (
+        {allPostsData.map(({ id, date, title, tags }) => (
           <Card key={id}>
             <CardHeader>
               <CardTitle>{title}</CardTitle>
@@ -26,6 +26,18 @@ export default function CoursesPage() {
             </CardHeader>
             <CardContent>
               <p>ここにコースの簡単な説明文が入ります。</p>
+              {Array.isArray(tags) && tags.length > 0 ? (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
             </CardContent>
             <CardFooter className="flex justify-end">
               <Button asChild>
@@ -41,3 +53,4 @@ export default function CoursesPage() {
     </div>
   );
 }
+

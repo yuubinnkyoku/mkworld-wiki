@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X, Globe } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const navItems = [
   { href: "/", label: "ホーム" },
@@ -41,11 +42,19 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* Mobile menu button */}
-        <div className="md:hidden">
-          <Button variant="ghost" size="icon" aria-label="メニュー" onClick={() => setOpen((v) => !v)}>
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+        {/* Actions: theme toggle and mobile menu button */}
+        <div className="flex items-center gap-1">
+          <ModeToggle />
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="メニュー"
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
+          </div>
         </div>
       </div>
 

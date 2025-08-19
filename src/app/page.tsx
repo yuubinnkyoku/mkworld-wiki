@@ -14,8 +14,8 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 export default function Home() {
   const allPostsData = getSortedPostsData();
   return (
-    <div className="container mx-auto px-4 py-8">
-      <header className="text-center py-12">
+    <div className="space-y-8">
+      <header className="text-center py-10">
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">MKWorld Wiki</h1>
         <p className="text-lg text-muted-foreground mt-4">
           マリオカートのすべてがここに
